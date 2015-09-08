@@ -1,0 +1,2 @@
+# magnus
+Data entry software
