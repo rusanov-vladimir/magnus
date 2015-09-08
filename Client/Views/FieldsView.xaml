@@ -1,0 +1,226 @@
+﻿<UserControl x:Class="Client.Views.FieldsView"
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+			xmlns:domain="clr-namespace:Magnus.Business.Domain;assembly=Magnus.Business"
+			xmlns:models="clr-namespace:Client.ViewModels"
+			xmlns:convertors="clr-namespace:Client.Convertors"
+			xmlns:dtos="clr-namespace:Magnus.Business.Dtos;assembly=Magnus.Business"
+			xmlns:dynamicFields="clr-namespace:Magnus.Business.Domain.DynamicFields;assembly=Magnus.Business"
+			xmlns:dtos1="clr-namespace:Magnus.Business.Dtos.DynamicFields;assembly=Magnus.Business"
+			mc:Ignorable="d"
+			d:DesignHeight="300" d:DesignWidth="300"
+			Focusable="False">
+	<UserControl.Resources>
+		
+		<Style TargetType="{x:Type dxe:ButtonEdit}">
+			<Setter Property="MinWidth" Value="100" />
+			<Setter Property="ShowText" Value="False" />
+			<Setter Property="AllowDefaultButton" Value="False" />
+			<Setter Property="MaskType" Value="None" />
+			<Setter Property="ShowBorder" Value="False" />
+			<Setter Property="MaxHeight" Value="40"/>
+		</Style>
+		
+		<Style TargetType="{x:Type Button}" x:Key="PaginationButtonStyle">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding Text,ElementName=PageLabel}" Value="Page : 1 / 1">
+					<Setter Property="Visibility" Value="Hidden"></Setter>
+				</DataTrigger>
+			</Style.Triggers>
+			<Setter Property="MaxHeight" Value="40"/>
+		</Style>
+		
+		<Style TargetType="{x:Type TextBlock}">
+			<Setter Property="MinWidth" Value="100" />
+			<Setter Property="FontSize" Value="20" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="Foreground" Value="DimGray"></Setter>
+		</Style>
+		
+		<Style TargetType="{x:Type TextBlock}" x:Key="PaginationLabelStyle">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding Text,ElementName=PageLabel}" Value="Page : 1 / 1">
+					<Setter Property="Visibility" Value="Hidden"></Setter>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+
+		<ControlTemplate x:Key="BorderTemplate" TargetType="{x:Type ContentControl}">
+			<Border BorderBrush="Red" BorderThickness="1" CornerRadius="1" Background="{Binding Path=Background,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type dxe:TextEdit}}}">
+				<ContentPresenter/>
+			</Border>
+		</ControlTemplate>
+
+		<Style x:Key="DynamicFieldStyle" TargetType="{x:Type dxe:BaseEdit}">
+			<Style.Triggers>
+				<Trigger Property="Validation.HasError" Value="True">
+					<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+					<Setter Property="BorderTemplate" Value="{StaticResource BorderTemplate}"></Setter>
+				</Trigger>
+			</Style.Triggers>
+			<Setter Property="AllowNullInput" Value="False" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="MinWidth" Value="50" />
+			<Setter Property="Margin" Value="2 10 10 10" />
+			<Setter Property="Height" Value="45" />
+			<Setter Property="FontSize" Value="25"/>
+		</Style>
+
+		<Style TargetType="{x:Type dxe:CheckEdit}">
+			<Style.Triggers>
+				<Trigger Property="Validation.HasError" Value="True">
+					<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<DataTemplate x:Key="StringTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+			<dxe:TextEdit
+				EditValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+				IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+				HorizontalContentAlignment="Left"/>
+		</DataTemplate>
+
+		<DataTemplate x:Key="AlphanumericTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+
+			<dxe:TextEdit MaskType="RegEx" Mask="[a-zA-Z0-9]*"
+						EditValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+						IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+						HorizontalContentAlignment="Left" />
+		</DataTemplate>
+
+		<DataTemplate x:Key="IntegerTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+			<dxe:TextEdit MaskType="Numeric" Mask="d"
+						EditValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+						IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+						HorizontalContentAlignment="Right"
+						/>
+		</DataTemplate>
+
+		<DataTemplate x:Key="DoubleTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+			<dxe:TextEdit MaskType="Numeric" Mask="n"
+						EditValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+						IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+						HorizontalContentAlignment="Right" />
+		</DataTemplate>
+
+		<DataTemplate x:Key="DateTimeTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+			<dxe:DateEdit
+				EditValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+				IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+				HorizontalContentAlignment="Left"/>
+		</DataTemplate>
+
+		<DataTemplate x:Key="BoolTemplate" DataType="{x:Type dtos1:DynamicFieldDto}">
+			<dxe:CheckEdit
+				IsChecked="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged, Converter={convertors:DynamicValueConverter}, ValidatesOnDataErrors=True}"
+				IsEnabled="{Binding Path=Configuration.IsEnabled}" Style="{StaticResource DynamicFieldStyle}"
+				HorizontalContentAlignment="Left"/>
+		</DataTemplate>
+
+		<DataTemplate x:Key="DefaultTemplate" />
+
+		<DataTemplate DataType="{x:Type models:FieldsViewModel}">
+			<ItemsControl ItemsSource="{Binding Path=Fields}" Focusable="False" IsTabStop="False" HorizontalAlignment="Stretch" >
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Vertical" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid Focusable="False">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="210" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Label Grid.Column="0" Content="{Binding Path=Configuration.Label}" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="25" Margin="8,0,0,0"/>
+
+							<ContentControl Grid.Column="1" x:Name="DynamicField"
+												Content="{Binding}"
+												Focusable="False"
+												ContentTemplate="{StaticResource DefaultTemplate}" 
+												HorizontalAlignment="Stretch"/>
+						</Grid>
+						<DataTemplate.Triggers>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>Integer</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+											Value="{StaticResource IntegerTemplate}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>String</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+											Value="{StaticResource StringTemplate}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>Alphanumeric</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+											Value="{StaticResource AlphanumericTemplate}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>DateTime</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+											Value="{StaticResource DateTimeTemplate}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>Bool</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+												Value="{StaticResource BoolTemplate}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Path=Configuration.Type}">
+								<DataTrigger.Value>
+									<dynamicFields:DynamicFieldType>Double</dynamicFields:DynamicFieldType>
+								</DataTrigger.Value>
+								<Setter TargetName="DynamicField" Property="ContentTemplate"
+													Value="{StaticResource DoubleTemplate}" />
+							</DataTrigger>
+
+						</DataTemplate.Triggers>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</DataTemplate>
+
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="6*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Text="Please fill the fields with related information from image." FontFamily="Segoe UI Light"/>
+		<TextBlock Text="{Binding ProjectName, StringFormat=Typology: {0}}" Grid.Row="1" FontWeight="Heavy" FontSize="25"/>
+
+		<ContentControl Content="{Binding}" Grid.Row="2"/>
+
+		<Button Content="Prev Page" HorizontalAlignment="Left" Grid.Row="3" Margin="10,10,0,10" Command="{Binding PrevPageCommand}" Style="{DynamicResource PaginationButtonStyle}"/>
+		<TextBlock x:Name="PageLabel" Text="{Binding Page, Mode = OneWay}" Grid.Row="3" Margin="0,0,0,10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Style="{DynamicResource PaginationLabelStyle}"/>
+		<Button Content="Next Page" HorizontalAlignment="Right" Grid.Row="3" Margin="0,10,10,10" Command="{Binding NextPageCommand}" Style="{DynamicResource PaginationButtonStyle}"/>
+
+		<TextBlock Text="{Binding ValidationResult}" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
+		<dxe:ButtonEdit HorizontalAlignment="Stretch" Grid.Row ="5" VerticalAlignment="Stretch" Margin="10">
+			<dxe:ButtonInfo Command="{Binding SubmitData}" Content="Submit" IsEnabled="{Binding IsSubmitActive}"/>
+		</dxe:ButtonEdit>
+		
+	</Grid>
+</UserControl>

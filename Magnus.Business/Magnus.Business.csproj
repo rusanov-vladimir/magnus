@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CDF87B4-797C-4A3B-9622-498851C730C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Magnus.Business</RootNamespace>
+    <AssemblyName>Magnus.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\DynamicFields\BoolValue.cs" />
+    <Compile Include="Domain\DynamicFields\DoubleValue.cs" />
+    <Compile Include="Domain\DynamicFields\DynamicField.cs" />
+    <Compile Include="Domain\DynamicFields\DynamicFieldTemplate.cs" />
+    <Compile Include="Domain\DynamicFields\DynamicFieldType.cs" />
+    <Compile Include="Domain\DynamicFields\DynamicFieldValue.cs" />
+    <Compile Include="Domain\Entity.cs" />
+    <Compile Include="Domain\DynamicFields\DateTimeValue.cs" />
+    <Compile Include="Domain\DynamicFields\DynamicFieldsContainer.cs" />
+    <Compile Include="Domain\Interfaces\IFieldsContainer.cs" />
+    <Compile Include="Domain\DynamicFields\IntegerValue.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\BoolValueMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\DoubleValueMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\DateTimeValueMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\DynamicFieldMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\DynamicFieldTemplateMap.cs" />
+    <Compile Include="Domain\Mappings\DocumentMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\IntegerValueMap.cs" />
+    <Compile Include="Domain\Mappings\DynamicFieldsMap\StringValueMap.cs" />
+    <Compile Include="Domain\Mappings\TaskMap.cs" />
+    <Compile Include="Domain\Mappings\TeamMap.cs" />
+    <Compile Include="Domain\Mappings\ProjectMap.cs" />
+    <Compile Include="Domain\DynamicFields\StringValue.cs" />
+    <Compile Include="Domain\Interfaces\IEntity.cs" />
+    <Compile Include="Domain\Interfaces\INamedEntity.cs" />
+    <Compile Include="Domain\Mappings\IMap.cs" />
+    <Compile Include="Domain\Mappings\Map.cs" />
+    <Compile Include="Domain\Mappings\UserMap.cs" />
+    <Compile Include="Domain\State.cs" />
+    <Compile Include="Domain\Task.cs" />
+    <Compile Include="Domain\Project.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Dtos\DynamicFields\BoolValueDto.cs" />
+    <Compile Include="Dtos\DynamicFields\DateTimeValueDto.cs" />
+    <Compile Include="Dtos\DynamicFields\DoubleValueDto.cs" />
+    <Compile Include="Dtos\DynamicFields\DynamicFieldDto.cs" />
+    <Compile Include="Dtos\DocumentDto.cs" />
+    <Compile Include="Dtos\DynamicFields\IntegerValueDto.cs" />
+    <Compile Include="Dtos\DynamicFields\StringValueDto.cs" />
+    <Compile Include="Dtos\ProjectDto.cs" />
+    <Compile Include="Dtos\TeamDto.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
+    <Compile Include="Dtos\DynamicFields\ValueDto.cs" />
+    <Compile Include="Domain\Image.cs" />
+    <Compile Include="Infrastructure\AppIdentity.cs" />
+    <Compile Include="Infrastructure\AppPrincipal.cs" />
+    <Compile Include="Infrastructure\DatabaseContext.cs" />
+    <Compile Include="Infrastructure\DatabaseInitializer.cs" />
+    <Compile Include="Infrastructure\MigrationsContextFactory.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\Repository.cs" />
+    <Compile Include="Migrations\201507301948039_InitialCreate.cs" />
+    <Compile Include="Migrations\201507301948039_InitialCreate.Designer.cs">
+      <DependentUpon>201507301948039_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DynamicFieldService.cs" />
+    <Compile Include="Dtos\DynamicFields\DynamicFieldTemplateDto.cs" />
+    <Compile Include="Services\FileManagerService.cs" />
+    <Compile Include="Services\Interfaces\IFileManagerService.cs" />
+    <Compile Include="Services\Interfaces\IDynamicFieldService.cs" />
+    <Compile Include="Services\Interfaces\ILoginService.cs" />
+    <Compile Include="Dtos\TaskDto.cs" />
+    <Compile Include="Services\Interfaces\ITaskService.cs" />
+    <Compile Include="Services\LoginService.cs" />
+    <Compile Include="Services\TaskService.cs" />
+    <Compile Include="Domain\Team.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507301948039_InitialCreate.resx">
+      <DependentUpon>201507301948039_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
